@@ -1,6 +1,7 @@
 "use strict";
 
 const fsP = require('fs/promises');
+const { url } = require('inspector');
 
 const argv = process.argv;
 
@@ -13,7 +14,7 @@ async function cat(filePath) {
     const contents = await fsP.readFile(filePath, 'utf8');
     console.log(contents);
   } catch (err) {
-    console.error('Error:', err.message);
+    console.error(err.toString());
     process.exit(1);
   }
 }
@@ -25,10 +26,25 @@ async function webCat(url) {
 
   try {
     const response = await fetch(url);
-    const contents = response.text();
+    const contents = await response.text();
     console.log(contents);
   } catch (err) {
-    console.error('Error:', err.message);
+    console.error(err.toString());
     process.exit(1);
   }
 }
+
+
+/** Controller function - calls webCat if passed input is a valid URL, otherwise
+ * calls cat */
+
+function main(text) {
+  if (URL.canParse(text)) {
+    webCat(text);
+  }
+  else {
+    cat(text);
+  }
+}
+
+main(argv[2]);

@@ -13,7 +13,7 @@ async function cat(filePath) {
     const contents = await fsP.readFile(filePath, 'utf8');
     console.log(contents);
   } catch (err) {
-    console.error('Error:', err.message);
+    console.error(err.toString());
     process.exit(1);
   }
 }
