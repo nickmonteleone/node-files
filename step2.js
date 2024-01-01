@@ -38,12 +38,12 @@ async function webCat(url) {
 /** Controller function - calls webCat if passed input is a valid URL, otherwise
  * calls cat */
 
-function main(text) {
+async function main(text) {
   if (URL.canParse(text)) {
-    webCat(text);
+    await webCat(text);
   }
   else {
-    cat(text);
+    await cat(text);
   }
 }
 
